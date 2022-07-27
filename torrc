@@ -1,5 +1,47 @@
+#User tor
+#前置代理
+#HTTPSProxy 127.0.0.1:9666
+SOCKS5Proxy 172.16.10.100:1080
 HardwareAccel 1
-Log notice stdout
-DNSPort 0.0.0.0:8853
-SocksPort 0.0.0.0:9150
+#Log notice file /var/log/tor/tor.log
+Log notice stderr
+#Log debug stderr
+AutomapHostsOnResolve 1
+#ControlPort 9051
+#ControlSocket /etc/tor/run/control
+#ControlSocketsGroupWritable 1
+#CookieAuthentication 1
+#CookieAuthFile /etc/tor/run/control.authcookie
+#CookieAuthFileGroupReadable 1
+#DNSPort 5353
 DataDirectory /var/lib/tor
+ExitPolicy reject *:*
+RunAsDaemon 0
+GeoIPFile /geoip
+GeoIPv6File /geoip6
+#設置本地監聽端口與控制端SocksListenAddress 0.0.0.0
+CookieAuthentication 1
+SocksPort 0.0.0.0:9050 IsolateDestAddr
+#SocksPort 0.0.0.0:9050 IsolateDestAddr
+TransPort 0.0.0.0:9040
+VirtualAddrNetworkIPv4 10.192.0.0/10
+#減少磁盤讀寫
+AvoidDiskWrites 1
+#設置控制密碼
+#HashedControlPassword 16:872860B76453A77D60CA2BB8C1A7042072093276A3D701AD684053EC4C
+#網橋設置
+UseBridges 1
+ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy managed
+UpdateBridgesFromAuthority 1
+
+Bridge obfs4 46.226.105.13:80 CD98896007D51B55D866E4D0404084C35418D3E2 cert=4zHfLxAncOQBOkuVoN/h0dwG+q6yy8bqFlcwiGpwYE9SlR+7Z90zJPcRsdMc3IL8dx+AHg iat-mode=0
++Bridge obfs4 141.95.103.218:25305 068C7C09E4DD0C240A53B49FDA046000AE36E7C5 cert=rhznkOsc2/p0MEg1FGqu6aC+sbmgwuoH4d/acakFIE3txQmn5FTT4+nqUHHpZVNSmgchGA iat-mode=0
++Bridge obfs4 150.136.80.181:8081 A72BA69AB23F407A45E08A7E4D8D21C1532E009F cert=7nKzF97WSqO8NXDeG7lV/Du/NCenvOMsgSa6jpFBcLVWg3gu9lN5CedfYPWzs7IheqMNcg iat-mode=0
+
+#禁用以下地區節點
+ExcludeNodes {cn},{hk},{mo},{sg},{th},{pk},{by},{ru},{ir},{vn},{ph},{my},{cu}
+ExcludeExitNodes {cn},{hk},{mo},{sg},{th},{pk},{by},{ru},{ir},{vn},{ph},{my},{cu}
+StrictNodes 1
+#指定出口區域節點
+#StrictExitNodes 1
+#ExitNodes {us}
