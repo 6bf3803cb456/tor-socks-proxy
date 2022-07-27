@@ -5,7 +5,13 @@ services:
   tor-socks-proxy:
     container_name: tor-socks-proxy
     image: peterdavehello/tor-socks-proxy:latest
+    environment:
+      - TZ=Asia/Taiwan
+    volumes:
+      - /home/user/docker/tor/config:/etc/tor
     ports:
-      - "127.0.0.1:8853:53/udp"
-      - "127.0.0.1:9150:9150/tcp"
+      - 8853:53/udp
+      - 9150:9150/tcp
+      - 9050:8050/tcp
+      - 9040:9040/tcp
     restart: unless-stopped
